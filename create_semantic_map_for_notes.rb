@@ -25,11 +25,14 @@ def tf_idf(term, doc, index, reverse_index)
   tf(term, doc, index) * idf(term, index, reverse_index)
 end
 
+def tumblr_url_to_id(url)
+  url.split("/").last.to_i
+end
 
 db = SQLite3::Database.open "#{ARGV[0]}.db"
 notes = db.execute("select permalink, content from notes").collect do |note|
   [
-    note[0].split("/").last.to_i,
+    tumblr_url_to_id(note[0]),
     note[1]
     .downcase
     .gsub(/<\/?[^>]*>/, "")
@@ -52,13 +55,16 @@ notes.each do |doc|
   end
 end
 
-semantics = {} # Maps words to a set [tf-idf weight of word in doc, docID] pairs.
+word_semantics = {} # Maps words to a set [tf-idf weight of word in doc, docID] pairs.
+doc_semantics = {}  # Maps docs to a set [tf-idf weight of word in doc, word] pairs.
 index.each do |doc, words|
   words.uniq.collect {|w| [tf_idf(w, doc, index, reverse_index), w]}.each do |pair|
     word = pair[1]
     weight = pair[0]
-    (semantics[word] ||= []) << [weight, doc]
+    (doc_semantics[doc] ||= []) << [weight, word]
+    (word_semantics[word] ||= []) << [weight, doc]
   end
 end
 
-ObjectStash.store semantics, './semantics.stash'
+ObjectStash.store word_semantics, "./#{ARGV[0]}-words.stash"
+ObjectStash.store doc_semantics, "./#{ARGV[0]}-docs.stash"

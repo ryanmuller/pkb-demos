@@ -32,6 +32,24 @@ migrations)
 ruby create_metadata_for_sources.rb effective-learning.tumblr.com [--rebuild]
 ```
 
-## Coming soon
-
 ### tf-idf
+
+Adapted from
+[jsomers/semantic-notes](https://github.com/jsomers/semantic-notes).
+
+After importing notes into a db, this creates a "semantic map" (via
+.stash files) of [Tf-idf](http://en.wikipedia.org/wiki/Tf%E2%80%93idf)
+statistics for words by note as well as notes by word:
+
+```
+ruby create_semantic_map_for_notes.rb effective-learning.tumblr.com
+```
+
+After creating the semantic maps, we generate the five most unique terms
+for each note:
+
+```
+ruby create_metadata_for_notes.rb effective-learning.tumblr.com [--rebuild]
+```
+
+Note the maps are also good for searching notes by term.
