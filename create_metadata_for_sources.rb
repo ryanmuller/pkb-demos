@@ -19,11 +19,11 @@ def prismatic_interests(url)
     faraday.adapter :net_http
   end
   conn.headers = { "X-API-TOKEN" => configuration["prismatic_api_token"] }
-  resp = conn.post "/url/topic", url: url
   begin
+    resp = conn.post "/url/topic", url: url
     body = JSON.parse(resp.body)
     (body["topics"] || []).map { |t| t["topic"] }.join ","
-  rescue JSON::ParserError
+  rescue Faraday::TimeoutError, JSON::ParserError
     ""
   end
 end

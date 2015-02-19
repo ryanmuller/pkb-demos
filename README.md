@@ -20,6 +20,25 @@ sqlite3 db of the same name with two tables: notes and sources.
 ruby fetch_tumblr_data_and_populate_db.rb effective-learning.tumblr.com
 ```
 
+### Diigo Import
+
+You'll need a Diigo account and [API key](https://www.diigo.com/api_dev/docs),
+which you should put in a file called `secrets.yml` like so:
+
+```
+diigo_api_key: XXXXXX
+diigo_username: rmuller
+diigo_password: password
+```
+
+Now you can fetch your bookmarks and notes by passing your username.
+This creates `com.diigo.rmuller.db` with the same schema as Tumblr
+import:
+
+```
+ruby fetch_diigo_data_and_populate_db.rb rmuller
+```
+
 ### Interest Graph API
 
 You'll need an [API key](http://interest-graph.getprismatic.com/),
