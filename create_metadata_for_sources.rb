@@ -33,7 +33,7 @@ def content_html(url)
   begin
     source = open(url).read
     Readability::Document.new(source).content
-  rescue URI::InvalidURIError, RuntimeError
+  rescue URI::InvalidURIError, RuntimeError, OpenURI::HTTPError, SocketError
     ""
   end
 end
@@ -51,6 +51,7 @@ if options[:rebuild]
 end
 
 db.execute "create table if not exists source_metadata (url string primary key, interests string, content_html text)"
+db.execute "create table if not exists interest_sources (interest string, url string, unique(interest,url) on conflict ignore)"
 
 db.execute("select url from sources").map { |s| s[0] }.each do |url|
   begin
@@ -62,6 +63,13 @@ end
 # update interests
 db.execute("select url from source_metadata where interests is null").map { |s| s[0] }.each do |url|
   db.execute "update source_metadata set interests=? where url=?", prismatic_interests(url), url
+end
+
+# update interest sources
+db.execute("select url, interests from source_metadata").each do |source|
+  source[1].split(",").each do |interest|
+    db.execute "insert into interest_sources(interest, url) values (?,?)", interest, source[0]
+  end
 end
 
 # update content
