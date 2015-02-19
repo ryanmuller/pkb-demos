@@ -22,6 +22,13 @@ ruby fetch_tumblr_data_and_populate_db.rb effective-learning.tumblr.com
 
 ### Interest Graph API
 
+You'll need an [API key](http://interest-graph.getprismatic.com/),
+which you should put in a file called `secrets.yml` like so:
+
+```
+prismatic_api_token: XXXX
+```
+
 After importing sources into a db (e.g.
 `effective-learning.tumblr.com.db` from tumblr import), this will assign
 interests to each source in a `source_metadata` table. `--rebuild` will
