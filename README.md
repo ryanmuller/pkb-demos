@@ -32,7 +32,7 @@ diigo_password: password
 ```
 
 Now you can fetch your bookmarks and notes by passing your username.
-This creates `com.diigo.rmuller.db` with the same schema as Tumblr
+This creates `diigo.com_rmuller.db` with the same schema as Tumblr
 import:
 
 ```

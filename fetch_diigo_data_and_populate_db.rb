@@ -36,7 +36,7 @@ end
 puts "#{bookmarks.size} bookmarks fetched"
 puts "#{notes.size} notes fetched"
 
-db = SQLite3::Database.new( "com.diigo.#{ARGV[0]}.db" )
+db = SQLite3::Database.new( "diigo.com_#{ARGV[0]}.db" )
 db.execute("create table if not exists notes (content text, source_url string, permalink string primary key, created_at datetime)")
 db.execute("create table if not exists sources (url string primary key)")
 
