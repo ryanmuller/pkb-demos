@@ -14,7 +14,7 @@ Adapted from
 [jsomers/semantic-notes](https://github.com/jsomers/semantic-notes).
 
 Takes one argument, the domain of a tumblog (no http://). It creates a
-sqlite3 db of the same name with two tables: notes and sources.
+sqlite3 db of the same name with two tables: notes and sources. Example:
 
 ```
 ruby fetch_tumblr_data_and_populate_db.rb effective-learning.tumblr.com
@@ -36,7 +36,19 @@ This creates `diigo.com_rmuller.db` with the same schema as Tumblr
 import:
 
 ```
-ruby fetch_diigo_data_and_populate_db.rb rmuller
+ruby fetch_diigo_data_and_populate_db.rb [username]
+```
+
+### Delicious Import
+
+```
+ruby fetch_delicious_and_populate_db.rb [username] [tag]
+```
+
+### RSS Import
+
+```
+ruby fetch_general_rss_and_populate_db.rb [feed_url]
 ```
 
 ### Interest Graph API
