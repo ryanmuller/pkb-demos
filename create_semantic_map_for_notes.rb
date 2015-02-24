@@ -25,17 +25,19 @@ def tf_idf(term, doc, index, reverse_index)
   tf(term, doc, index) * idf(term, index, reverse_index)
 end
 
-def tumblr_url_to_id(url)
-  url.split("/").last.to_i
-end
-
 db = SQLite3::Database.open "#{ARGV[0]}.db"
 notes = db.execute("select permalink, content from notes").collect do |note|
   [
-    tumblr_url_to_id(note[0]),
+    note[0],
     note[1]
     .downcase
-    .gsub(/<\/?[^>]*>/, "")
+    .gsub(/<\/?[^>]*>/, "") # html tags
+    .gsub(/\[\[([^\]]*)\]\]/, "\\1") # wiki inner links
+    .gsub(/\[([^\]]*)\]\([^)]*\)/, "\\1") # markdown links
+    .gsub("h\d\.", "") # wiki headings
+    .gsub(/https?:\/\/\S*/, "") # random links
+    .gsub(/~~[^~]*~~/, "") # embed codes
+    .gsub(/{{[^}]*}}/, "") # more embed codes
     .gsub(/[^a-zA-Z0-9\-\s]/, "")
   ]
 end

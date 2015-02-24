@@ -1,6 +1,12 @@
 source "https://rubygems.org"
 
 gem "faraday"
-gem "htmlentities"
-gem "ruby-readability"
 gem "sqlite3"
+
+# parsing and computing
+gem "htmlentities"
+gem "classifier"
+gem "ruby-readability"
+
+# importing
+gem "simple-rss"

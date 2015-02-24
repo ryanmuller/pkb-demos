@@ -7,10 +7,6 @@ require "open-uri"
 require "readability"
 require "./stash"
 
-def tumblr_url_to_id(url)
-  url.split("/").last.to_i
-end
-
 def top_terms(doc_id, n=5)
   semantics = ObjectStash.load "./#{ARGV[0]}-docs.stash"
   unless semantics[doc_id].nil?
@@ -46,7 +42,7 @@ db.execute("select permalink from notes").map { |s| s[0] }.each do |url|
   end
 end
 
-# update important terms
-db.execute("select url from note_metadata where terms is null").map { |s| s[0] }.each do |url|
-  db.execute "update note_metadata set terms=? where url=?", top_terms(tumblr_url_to_id(url)).join(","), url
+# update terms
+db.execute("select url from note_metadata").map { |s| s[0] }.each do |url|
+  db.execute "update note_metadata set terms = ? where url = ?", top_terms(url).join(","), url
 end
