@@ -1,4 +1,5 @@
 require "open-uri"
+require "uri"
 require "securerandom"
 require "ostruct"
 require "nibbler"
@@ -6,15 +7,12 @@ require "./populate_db"
 
 class FetchSite
   def self.fetch_site_and_populate_db(url, scraper, options={})
-    parsed = scraper.parse open(url)
-    db = PopulateDB.new(options[:db_name] || parsed.title)
+    db = PopulateDB.new(options[:db_name] || URI.parse(url).host)
     scraper.fetch_and_populate url, db
   end
 end
 
 class SourcesScraper < Nibbler
-  element :title
-
   def self.fetch_and_populate(url, db)
     parsed = parse open(url)
     parsed.sources.each do |source|
@@ -43,8 +41,6 @@ class SourceScraper < Nibbler
 end
 
 class NotesScraper < Nibbler
-  element :title
-
   def self.fetch_and_populate(url, db)
     parsed = parse open(url)
     parsed.notes.each do |note|
