@@ -10,3 +10,4 @@ gem "ruby-readability"
 
 # importing
 gem "simple-rss"
+gem "nibbler"

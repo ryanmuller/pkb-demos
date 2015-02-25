@@ -1,5 +1,3 @@
-require "sqlite3"
-require "json"
 require "open-uri"
 require "simple-rss"
 require "htmlentities"
