@@ -25,10 +25,6 @@ class SourcesScraper < Nibbler
       end
     end
   end
-
-  def sources
-    raise NotImplementedError
-  end
 end
 
 class SourceScraper < Nibbler
@@ -58,10 +54,6 @@ class NotesScraper < Nibbler
         db.insert :sources, url: note.source_url
       end
     end
-  end
-
-  def notes
-    raise NotImplementedError
   end
 end
 
