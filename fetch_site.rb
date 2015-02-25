@@ -58,6 +58,8 @@ class NotesScraper < Nibbler
 end
 
 class NoteScraper < Nibbler
+  private
+
   def default_note
     # required: content
     OpenStruct.new(
