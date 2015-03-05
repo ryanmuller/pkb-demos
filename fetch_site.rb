@@ -41,7 +41,7 @@ class SourceScraper < Nibbler
 end
 
 class NotesScraper < Nibbler
-  def self.fetch_and_populate(url, db)
+  def fetch_and_populate(url, db)
     parsed = parse open(url)
     parsed.notes.each do |note|
       db.insert :notes, content: note.content, source_url: note.source_url, permalink: note.permalink, created_at: note.created_at

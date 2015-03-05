@@ -26,6 +26,7 @@ loop do
   break if fetched_bookmarks == []
   bookmarks += JSON.parse(resp.body)
   notes += bookmarks.flat_map do |b|
+    puts b["annotations"]
     b["annotations"].map do |a|
       { "content" => a["content"], "source_url" => b["url"] }
     end

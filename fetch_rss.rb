@@ -27,6 +27,7 @@ class FetchRSS
 
   def self.content_html(item)
     coder = HTMLEntities.new
-    coder.decode(item.description.force_encoding("utf-8"))
+    content = item.description || item.content
+    coder.decode(content.force_encoding("utf-8"))
   end
 end
