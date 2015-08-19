@@ -5,7 +5,9 @@ gem "sqlite3"
 
 # parsing and computing
 gem "htmlentities"
+gem "sanitize"
 gem "classifier"
+gem "rb-gsl"
 gem "ruby-readability"
 
 # importing
